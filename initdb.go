@@ -22,6 +22,8 @@ func (a *App) initDB(user, password, dbname, host string) {
 		log.Fatal("Database ping failed:", err)
 	}
 	a.ensureTableExists()
+	a.DB.SetMaxOpenConns(500)
+	a.DB.SetMaxIdleConns(500)
 	a.Rp = &WalletAccess{}
 }
 
