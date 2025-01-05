@@ -2,6 +2,15 @@
 
 This is a simple wallet service implemented in Go using the Gin framework and a SQL database.
 
+## Test Coverage 
+
+```
+ha1kang@ha1kang-Z390-UD:~/research/wallet$ ls
+dao.go  dao_test.go  docker-compose.yml  Dockerfile  go.mod  go.sum  handler.go  handler_test.go  initdb.go  main.go  model.go  README.md  sql.sql  wallet
+ha1kang@ha1kang-Z390-UD:~/research/wallet$ go test ./... -race -cover
+ok  	wallet	(cached)	coverage: 80.4% of statements
+```
+
 ## Endpoints
 
 - `PUT /api/balance/:id` - Deposit or withdraw funds from a wallet.
@@ -32,3 +41,10 @@ docker build -t wallet .
 docker-compose up -d
 ```
 
+## 
+
+- Analyze the personal wallet model, add multiple functions to access the database, and confirm the processing logic of the restful API. test-driven.
+- model: wallet, transactions
+- data access interface: IWallet
+- 4 route with 4 handler 
+- test driven
