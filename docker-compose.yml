@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres1
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword123
+    networks:
+      - wallet_network
+
+  app:
+    image: wallet
+    container_name: wallet
+    environment:
+      DB_USERNAME: postgres
+      DB_PASSWORD: mysecretpassword123
+      DB_NAME: postgres
+      DB_HOST: postgres1
+    networks:
+      - wallet_network
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+networks:
+  wallet_network:
+    driver: bridge
