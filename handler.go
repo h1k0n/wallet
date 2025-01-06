@@ -1,10 +1,9 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-
-	"github.com/gin-gonic/gin"
 )
 
 type AccountRequest struct {
@@ -87,7 +86,10 @@ func (a *App) transferHandler(c *gin.Context) {
 		return
 	}
 
-	a.Rp.ExecTransfer(a.DB, request.FromWalletId, request.ToWalletId, request.Amount)
+	if err := a.Rp.ExecTransfer(a.DB, request.FromWalletId, request.ToWalletId, request.Amount); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "transfer failed"})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"message": "transfer successful"})
 }
 

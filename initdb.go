@@ -3,9 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
-
 	_ "github.com/lib/pq"
+	"log"
 )
 
 //var db *sql.DB
@@ -28,7 +27,9 @@ func (a *App) initDB(user, password, dbname, host string) {
 }
 
 func (a *App) ensureTableExists() {
-	a.DB.Exec(tableCreationQuery)
+	if _, err := a.DB.Exec(tableCreationQuery); err != nil {
+		log.Fatal("Failed to create table:", err)
+	}
 }
 
 const tableCreationQuery = `-- Create the wallet table to store user wallet information

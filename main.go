@@ -2,9 +2,9 @@ package main
 
 import (
 	"database/sql"
-	"os"
-
 	"github.com/gin-gonic/gin"
+	"log"
+	"os"
 )
 
 type App struct {
@@ -24,5 +24,8 @@ func main() {
 	r.POST("/api/transfer", a.transferHandler)
 	r.GET("/api/transaction/:id", a.getTransactions)
 
-	r.Run()
+	err := r.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }

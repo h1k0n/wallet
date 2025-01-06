@@ -4,9 +4,19 @@ import (
 	"database/sql"
 	"fmt"
 	"time"
+
+	"log"
 )
 
 type WalletAccess struct{}
+
+func rollback(tx *sql.Tx) error {
+	if err := tx.Rollback(); err != nil {
+		log.Printf("failed to rollback transaction: %v", err)
+		return err
+	}
+	return nil
+}
 
 func (wa *WalletAccess) UpdateBalance(db *sql.DB, walletID int64, opType string, amount float64) error {
 	// 开始事务
@@ -14,7 +24,7 @@ func (wa *WalletAccess) UpdateBalance(db *sql.DB, walletID int64, opType string,
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer rollback(tx)
 
 	// 更新钱包余额
 	_, err = tx.Exec("UPDATE wallet SET balance = balance + $1 WHERE id = $2", amount, walletID)
@@ -77,7 +87,7 @@ func (wa *WalletAccess) ExecTransfer(db *sql.DB, fromId, toId int64, amount floa
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer rollback(tx)
 
 	// 锁定发起钱包和接收钱包
 	err = lockwalletForTransfer(tx, fromId, toId)
