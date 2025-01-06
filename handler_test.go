@@ -556,7 +556,7 @@ func TestGetTransactionsHandler_Error(t *testing.T) {
 			//var responseBody map[string]interface{}
 
 			expected, _ := json.Marshal(tt.expectedBody)
-			assert.Equal(t, string(expected), string(rec.Body.Bytes()))
+			assert.Equal(t, string(expected), rec.Body.String())
 		})
 	}
 }
@@ -635,7 +635,7 @@ func TestGetTransactionsHandler_WalletError(t *testing.T) {
 			//var responseBody map[string]interface{}
 
 			expected, _ := json.Marshal(tt.expectedBody)
-			assert.Equal(t, string(expected), string(rec.Body.Bytes()))
+			assert.Equal(t, string(expected), rec.Body.String())
 		})
 	}
 }
@@ -740,7 +740,7 @@ func TestGetTransactionsHandler(t *testing.T) {
 			//var responseBody map[string]interface{}
 
 			expected, _ := json.Marshal(tt.expectedBody)
-			assert.Equal(t, string(expected), string(rec.Body.Bytes()))
+			assert.Equal(t, string(expected), rec.Body.String())
 		})
 	}
 }
